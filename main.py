@@ -1,31 +1,4 @@
-from datetime import datetime, timezone, timedelta
-
 if __name__ == "main":
-    loop = 1
-    # Infinite loop to continuously ask for tasks/edit tasks
-    while loop == 1:
-        print('1) Add task  |  2) edit task')
-        taskCHOICE = int(input())
-
-        # if statement for if the user chooses to add a task
-        if taskCHOICE == 1:
-            # asks for the task name and the time due
-            timeDUE = []
-            addTASK = []
-            taskNAME = input('Enter a task: ')
-            print('When is the task due?')
-            timeDUE.append(int(input('Enter the year: ')))
-            timeDUE.append(int(input('Enter the month: ')))
-            timeDUE.append(int(input('Enter the day: ')))
-            timeDUE.append(int(input('Enter the hour: ')))
-            timeDUE.append(int(input('Enter the minute: ')))
-
-            # converts the time entered into the unix timestamp value for th CENTRAL TIME ZONE (Auburn's timezone)
-            # I would like to automatically change timezone to user's local time but idk how to do that yet
-            dueDATE = datetime(timeDUE[0], timeDUE[1], timeDUE[2], timeDUE[3], timeDUE[4], 0,
-                               tzinfo=timezone(timedelta(hours=6)))
-            addTASK.append(taskNAME)
-            addTASK.append(int(dueDATE.timestamp()))
-
-            # adds the task and timezone into the database (NEED DATABASE NAME)
-            # databasename(addTASK[0], addTASK[1])
+    print("Hello World")
+    print("Test")
+    print("Mo has edited")
