@@ -1,8 +1,6 @@
 from datetime import datetime, timezone, timedelta
-import database
 
 if __name__ == "main":
-    print(database.read_database())
 
     loop = 1
 
