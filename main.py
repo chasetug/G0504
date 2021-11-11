@@ -1,4 +1,4 @@
-if __name__ == "main":
-    print("Hello World")
-    print("Test")
-    print("Mo has edited")
+import database
+
+if __name__ == "__main__":
+    print(database.read_database())
