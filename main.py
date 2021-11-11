@@ -22,12 +22,12 @@ if __name__ == "main":
             timeDUE.append(int(input('Enter the hour: ')))
             timeDUE.append(int(input('Enter the minute: ')))
 
-            # converts the time entered into the unix timestamp value for th CENTRAL TIME ZONE (Auburn's time zone)
+            # converts the time entered into the unix timestamp value for the CENTRAL TIME ZONE (Auburn's time zone)
             # I would like to be able to automatically change the timestamp to the user's local time but idk how
             dueDATE = datetime(timeDUE[0], timeDUE[1], timeDUE[2], timeDUE[3], timeDUE[4], 0,
                                tzinfo=timezone(timedelta(hours=6)))
             addTASK.append(taskNAME)
             addTASK.append(int(dueDATE.timestamp()))
 
-            # adds the task and timezone into the database (NEED DATABASE NAME)
+            # adds the task name and timezone into the database (NEED DATABASE NAME)
             # databasename(addTASK[0], addTASK[1])
