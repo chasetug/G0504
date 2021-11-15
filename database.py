@@ -1,4 +1,5 @@
 import csv
+from datetime import datetime, timezone, timedelta
 
 
 def read_database():
@@ -51,3 +52,19 @@ def edit_time(name, new_time):
     with open('database.csv', 'w') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
+
+
+def input_time():
+    # Asks the user to input the due date
+    time_due = []
+    print('When is the task due?')
+    time_due.append(int(input('Enter the year: ')))
+    time_due.append(int(input('Enter the month: ')))
+    time_due.append(int(input('Enter the day: ')))
+    time_due.append(int(input('Enter the hour: ')))
+    time_due.append(int(input('Enter the minute: ')))
+
+    # converts the time entered into the unix timestamp value for the CENTRAL TIME ZONE (Auburn's time zone)
+    due_date = datetime(time_due[0], time_due[1], time_due[2], time_due[3], time_due[4], 0,
+                        tzinfo=timezone(timedelta(hours=-6)))
+    return due_date
