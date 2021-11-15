@@ -2,12 +2,12 @@ import database
 
 if __name__ == "__main__":
 
-    print(database.read_database())
-
     loop = 1
 
     # Infinite loop to continuously ask for tasks/edit tasks
     while loop == 1:
+
+        print(database.read_database())
 
         # Asks the user to select an action
         print('1) Add task  |  2) edit task')
@@ -32,24 +32,27 @@ if __name__ == "__main__":
             editTASK_choice = int(input())
 
             changeTASK = ''
+            editTASK_loop = 1
 
-            # if statement for if the user chooses to change task name
-            if editTASK_choice == 1:
-                changeTASK = input('Enter the name of a task to change it\'s name: ')
-                database.edit_name(changeTASK)
+            while editTASK_loop == 1:
 
-            # if statement for if the user chooses to change task due date
-            elif editTASK_choice == 2:
-                changeTASK = input('Enter the name of a task to change it\'s due date: ')
-                changeTIME = database.input_time()
-                database.edit_time(changeTASK, changeTIME)
+                # if statement for if the user chooses to change task name
+                if editTASK_choice == 1:
+                    changeTASK = input('Enter the name of a task to change it\'s name: ')
+                    editTASK_loop = database.edit_name(changeTASK)
 
-            # if statement for if the user chooses to delete a task
-            elif editTASK_choice == 3:
-                # deletes the task that matches the user's input
-                changeTASK = input('Enter the name of a task to delete: ')
-                database.del_item(changeTASK)
+                # if statement for if the user chooses to change task due date
+                elif editTASK_choice == 2:
+                    changeTASK = input('Enter the name of a task to change it\'s due date: ')
+                    changeTIME = database.input_time()
+                    editTASK_loop = database.edit_time(changeTASK, changeTIME)
 
-            # if statement for if the user chooses to go back to home menu
-            elif editTASK_choice == 4:
-                continue
+                # if statement for if the user chooses to delete a task
+                elif editTASK_choice == 3:
+                    # deletes the task that matches the user's input
+                    changeTASK = input('Enter the name of a task to delete: ')
+                    editTASK_loop = database.del_item(changeTASK)
+
+                # if statement for if the user chooses to go back to home menu
+                elif editTASK_choice == 4:
+                    continue

@@ -39,6 +39,8 @@ def del_item(name):
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
+    # add (if task name not found RETURN 1, else return 0)
+
 
 def edit_time(name, new_time):
     lines = list()
@@ -53,9 +55,13 @@ def edit_time(name, new_time):
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
+    # add (if task name not found RETURN 1, else return 0)
+
 
 def edit_name(name):
     print('edit name function not created yet!')
+
+    # add (if task name not found RETURN 1, else return 0)
 
 
 def input_time():
