@@ -54,6 +54,10 @@ def edit_time(name, new_time):
         csv_writer.writerows(lines)
 
 
+def edit_name(name):
+    print('edit name function not created yet!')
+
+
 def input_time():
     # Asks the user to input the due date
     time_due = []
