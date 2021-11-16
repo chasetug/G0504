@@ -68,8 +68,21 @@ def edit_time(name, new_time):
     return name_found
 
 
-def edit_name(name):
-    print('edit name function not created yet!')
+def edit_name(name, newName):
+    newList = list()
+    with open('database.csv', 'r') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        for row in csv_reader:
+            if row[0] == name:
+                tempRow = [newName, row[1]]
+                newList.append(tempRow)
+            else:
+                newList.append(row)
+    with open('database.csv', 'w') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerows(newList)
+
+
 
     # add (if task name not found RETURN 1, else return 0)
 
