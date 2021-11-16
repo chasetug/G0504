@@ -41,8 +41,10 @@ if __name__ == "__main__":
                 # if statement for if the user chooses to change task name
                 if editTASK_choice == 1:
                     changeTASK = input('Enter the name of a task to change it\'s name: ')
-                    editTASK_loop = database.edit_name(changeTASK)
-                    if editTASK_loop == 1:
+                    newName = input('Enter the new name of the selected task: ')
+                    editTASK_loop = database.edit_name(changeTASK, newName)
+
+                    if editTASK_loop == 0:
                         print('Name not found! Please try entering another name!')
 
                 # if statement for if the user chooses to change task due date
@@ -50,7 +52,7 @@ if __name__ == "__main__":
                     changeTASK = input('Enter the name of a task to change it\'s due date: ')
                     changeTIME = database.input_time()
                     editTASK_loop = database.edit_time(changeTASK, changeTIME)
-                    if editTASK_loop == 1:
+                    if editTASK_loop == 0:
                         print('Name not found! Please try entering another name!')
 
                 # if statement for if the user chooses to delete a task
@@ -58,9 +60,10 @@ if __name__ == "__main__":
                     # deletes the task that matches the user's input
                     changeTASK = input('Enter the name of a task to delete: ')
                     editTASK_loop = database.del_item(changeTASK)
-                    if editTASK_loop == 1:
+                    if editTASK_loop == 0:
                         print('Name not found! Please try entering another name!')
 
                 # if statement for if the user chooses to go back to home menu
                 elif editTASK_choice == 4:
                     continue
+
