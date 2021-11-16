@@ -68,23 +68,23 @@ def edit_time(name, new_time):
     return name_found
 
 
-def edit_name(name, newName):
-    newList = list()
+def edit_name(name, new_name):
+    new_list = list()
+    name_found = 0
     with open('database.csv', 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         for row in csv_reader:
             if row[0] == name:
-                tempRow = [newName, row[1]]
-                newList.append(tempRow)
+                temp_row = [new_name, row[1]]
+                new_list.append(temp_row)
+                name_found += 1
             else:
-                newList.append(row)
+                new_list.append(row)
     with open('database.csv', 'w') as csvfile:
         csv_writer = csv.writer(csvfile)
-        csv_writer.writerows(newList)
+        csv_writer.writerows(new_list)
 
-
-
-    # add (if task name not found RETURN 1, else return 0)
+    return name_found
 
 
 def input_time():
@@ -101,3 +101,4 @@ def input_time():
     due_date = datetime(time_due[0], time_due[1], time_due[2], time_due[3], time_due[4], 0,
                         tzinfo=timezone(timedelta(hours=-6)))
     return due_date
+
