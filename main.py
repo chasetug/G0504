@@ -34,9 +34,9 @@ if __name__ == "__main__":
             editTASK_choice = int(input())
 
             changeTASK = ''
-            editTASK_loop = 1
+            editTASK_loop = 0
 
-            while editTASK_loop == 1:
+            while editTASK_loop == 0:
 
                 # if statement for if the user chooses to change task name
                 if editTASK_choice == 1:

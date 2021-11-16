@@ -15,10 +15,13 @@ def read_database():
 
 def add_item(name, timestamp):
     lines = list()
+    name_found = 0
     with open('database.csv', 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         for row in csv_reader:
             lines.append(row)
+            if row[0] == name:
+                name_found += 1
 
     lines.append([name, timestamp])
 
@@ -26,36 +29,43 @@ def add_item(name, timestamp):
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
+    return name_found
+
 
 def del_item(name):
     lines = list()
+    name_found = 0
     with open('database.csv', 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         for row in csv_reader:
-            if row[0] != name:
+            if row[0] == name:
+                name_found += 1
+            else:
                 lines.append(row)
 
     with open('database.csv', 'w') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
-    # add (if task name not found RETURN 1, else return 0)
+    return name_found
 
 
 def edit_time(name, new_time):
     lines = list()
+    name_found = 0
     with open('database.csv', 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         for row in csv_reader:
             if row[0] == name:
                 row[1] = new_time
+                name_found += 1
             lines.append(row)
 
     with open('database.csv', 'w') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
-    # add (if task name not found RETURN 1, else return 0)
+    return name_found
 
 
 def edit_name(name):
