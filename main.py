@@ -6,7 +6,9 @@ if __name__ == "__main__":
 
     # Infinite loop to continuously ask for tasks/edit tasks
     while loop == 1:
-
+        database.add_item("test", 28392832938239)
+        database.add_item("test2", 1923829382019)
+        database.add_item("test3", 2389238293829)
         print(database.read_database())
 
         # Asks the user to select an action
