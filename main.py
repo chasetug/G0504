@@ -27,7 +27,7 @@ if __name__ == "__main__":
         # if statement for if the user chooses to edit a task
         elif taskCHOICE == 2:
 
-            print('1) Change task name   |   2) Change task due date   |   3) Delete Task   | 4) Return Home')
+            print('1) Change task name   |   2) Change task due date   |   3) Delete Task   |   4) Return Home')
             editTASK_choice = int(input())
 
             changeTASK = ''
@@ -62,5 +62,6 @@ if __name__ == "__main__":
 
                 # if statement for if the user chooses to go back to home menu
                 elif editTASK_choice == 4:
+                    
                     continue
 
