@@ -27,8 +27,8 @@ def add_item(name, timestamp):
 
     lines.append([name, timestamp])
 
-    with open('database.csv', 'wb') as csvfile:
-        csv_writer = csv.writer(csvfile)
+    with open('database.csv', 'w') as csvfile:
+        csv_writer = csv.writer(csvfile, lineterminator="\n")
         csv_writer.writerows(lines)
 
     return name_found
@@ -45,8 +45,8 @@ def del_item(name):
             else:
                 lines.append(row)
 
-    with open('database.csv', 'wb') as csvfile:
-        csv_writer = csv.writer(csvfile)
+    with open('database.csv', 'w') as csvfile:
+        csv_writer = csv.writer(csvfile, lineterminator="\n")
         csv_writer.writerows(lines)
 
     return name_found
@@ -63,8 +63,8 @@ def edit_time(name, new_time):
                 name_found += 1
             lines.append(row)
 
-    with open('database.csv', 'wb') as csvfile:
-        csv_writer = csv.writer(csvfile)
+    with open('database.csv', 'w') as csvfile:
+        csv_writer = csv.writer(csvfile, lineterminator="\n")
         csv_writer.writerows(lines)
 
     return name_found
@@ -82,8 +82,8 @@ def edit_name(name, new_name):
                 name_found += 1
             else:
                 new_list.append(row)
-    with open('database.csv', 'wb') as csvfile:
-        csv_writer = csv.writer(csvfile)
+    with open('database.csv', 'w') as csvfile:
+        csv_writer = csv.writer(csvfile, lineterminator="\n")
         csv_writer.writerows(new_list)
 
     return name_found
