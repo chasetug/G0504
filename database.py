@@ -19,13 +19,15 @@ def add_item(name, timestamp):
     with open('database.csv', 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         for row in csv_reader:
+            if row[0] == name:
+                return 0
             lines.append(row)
             if row[0] == name:
                 name_found += 1
 
     lines.append([name, timestamp])
 
-    with open('database.csv', 'w') as csvfile:
+    with open('database.csv', 'wb') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
@@ -43,7 +45,7 @@ def del_item(name):
             else:
                 lines.append(row)
 
-    with open('database.csv', 'w') as csvfile:
+    with open('database.csv', 'wb') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
@@ -61,7 +63,7 @@ def edit_time(name, new_time):
                 name_found += 1
             lines.append(row)
 
-    with open('database.csv', 'w') as csvfile:
+    with open('database.csv', 'wb') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(lines)
 
@@ -80,7 +82,7 @@ def edit_name(name, new_name):
                 name_found += 1
             else:
                 new_list.append(row)
-    with open('database.csv', 'w') as csvfile:
+    with open('database.csv', 'wb') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(new_list)
 
