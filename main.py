@@ -30,6 +30,8 @@ if __name__ == "__main__":
         global year_label, year_entry, month_label, month_entry, day_label, day_entry, hour_label, hour_entry
         global minute_label, minute_entry, task_name_label, time_instr_label, current_action
 
+        reset_board()
+
         btn_frame.pack_forget()
         add_task_btn.grid_forget()
         edit_task_btn.grid_forget()
@@ -79,6 +81,8 @@ if __name__ == "__main__":
     def add_time():
         global selected_task, task_list, current_action
         time_due = []
+
+        reset_board()
 
         if current_action == 'edit':
             selected_task = task_entry.get()
@@ -138,6 +142,9 @@ if __name__ == "__main__":
 
     def add_task():
         global selected_task, current_action, add_time_btn_frame, confirm_time_btn
+
+        reset_board()
+
         task = task_entry.get()
         selected_task = task
         current_action = 'add'
@@ -155,13 +162,14 @@ if __name__ == "__main__":
         if current_action != 'edit':
             task = task_entry.get()
         else:
-            current_action == 'delete'
             task = edited_task[0]
 
         for i in task_list:
             if task == i[0]:
                 task_list.remove(i)
+        reset_board()
 
+    def reset_board():
         open('task.txt', 'w').close()
         with open("task.txt", 'a') as task_file:
             for item in task_list:
@@ -171,18 +179,18 @@ if __name__ == "__main__":
         listbox_name.delete(0, END)
         listbox_time_rem.delete(0, END)
         listbox_due.delete(0, END)
-
-        if current_action == 'delete':
-            for item in task_list:
-                listbox_name.insert(tk.END, item[0])
-                listbox_time_rem.insert(tk.END, item[1])
-                listbox_due.insert(tk.END, item[2])
+        for item in task_list:
+            listbox_name.insert(tk.END, item[0])
+            listbox_time_rem.insert(tk.END, item[1])
+            listbox_due.insert(tk.END, item[2])
 
 
     def cancel_edit():
         global edit_btn_frame, confirm_edit_btn, cancel_edit_btn, minute_label, minute_entry, task_name_label
         global year_label, year_entry, month_label, month_entry, day_label, day_entry, hour_label, hour_entry
         global time_instr_label, current_action
+
+        reset_board()
 
         year_label.destroy()
         year_entry.destroy()
@@ -218,6 +226,8 @@ if __name__ == "__main__":
 
     def edit_task():
         global task_list, selected_task, edit_btn_frame, confirm_edit_btn, cancel_edit_btn, current_action, edited_task
+
+        reset_board()
 
         task = task_entry.get()
         selected_task = task
