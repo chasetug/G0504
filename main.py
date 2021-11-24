@@ -55,6 +55,7 @@ if __name__ == "__main__":
         listbox.delete(0, END)
         for item in task_list:
             listbox.insert(tk.END, item)
+        cancel_edit()
 
 
     def cancel_edit():
@@ -145,7 +146,7 @@ if __name__ == "__main__":
 
     root = tk.Tk()
     root.title("TO DO LIST")
-    root.geometry("500x700")
+    root.geometry("500x600")
     root.config(bg="#AFAFD7")
     root.resizable(0, 0)
     frame = tk.Frame(root, bd=3, width=300, height=350)
