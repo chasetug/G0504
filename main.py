@@ -123,6 +123,9 @@ if __name__ == "__main__":
         hour_min = '{}:{:%M}'.format(hour_due, due_date)
         due_time = '{} {:%d, %Y} @{}{}'.format(month_due[0:3], due_date, hour_min, time_day)
 
+        # ADD NEW UPDATED TIMER
+        unixtime = int(due_date.timestamp())
+
         task_left_due = [selected_task, 'STILL WORKING', due_time]
 
         if current_action == 'edit':
@@ -247,7 +250,9 @@ if __name__ == "__main__":
 
 
     def del_all():
+        global task_list
         open('task.txt', 'w').close()
+        task_list = []
         listbox_name.delete(0, END)
         listbox_time_rem.delete(0, END)
         listbox_due.delete(0, END)
