@@ -1,4 +1,3 @@
-import database
 import tkinter as tk
 from tkinter import *
 from datetime import datetime, timezone, timedelta
@@ -21,11 +20,15 @@ if __name__ == "__main__":
     minute_entry = ''
     task_name_label = ''
     time_instr_label = ''
+    current_action = ''
+    add_time_btn_frame = ''
+    confirm_time_btn = ''
+    edited_task = ''
 
 
-    def insert_due_date(task, selection):
+    def insert_due_date(task):
         global year_label, year_entry, month_label, month_entry, day_label, day_entry, hour_label, hour_entry
-        global minute_label, minute_entry, task_name_label, time_instr_label
+        global minute_label, minute_entry, task_name_label, time_instr_label, current_action
 
         btn_frame.pack_forget()
         add_task_btn.grid_forget()
@@ -35,13 +38,13 @@ if __name__ == "__main__":
         enter_task_label.place_forget()
         task_entry.pack_forget()
 
-        if selection == 'add':
+        if current_action == 'add':
             y_add = 0
             task_name_label = Label(root, text="Task: {}".format(task), font=('Helvetica bold', 12), bg="pink")
             task_name_label.place(x=30, y=278)
             time_instr_label = Label(root, text="Enter the due date!", font=('Helvetica bold', 12), bg="light blue")
             time_instr_label.pack(pady=0)
-        elif selection == 'edit':
+        elif current_action == 'edit':
             y_add = 45
             enter_task_label.place(x=30, y=280)
             task_entry.pack(pady=10)
@@ -74,10 +77,11 @@ if __name__ == "__main__":
         minute_entry.pack(pady=10)
 
     def add_time():
-        global selected_task, task_list
+        global selected_task, task_list, current_action
         time_due = []
-        task_left_due = []
 
+        if current_action == 'edit':
+            selected_task = task_entry.get()
         '''
         due = Label(root, text="{}".format(due_date), bg="#AFAFD7")
         due.place(x=200, y=200)
@@ -97,6 +101,7 @@ if __name__ == "__main__":
         due_date = datetime(time_due[0], time_due[1], time_due[2], time_due[3], time_due[4], 0,
                             tzinfo=timezone(timedelta(hours=-6)))
 
+        month_due = '{:%B}'.format(due_date)
         hour_due = int('{:%H}'.format(due_date))
 
         if hour_due >= 12 and hour_due != 24:
@@ -112,24 +117,32 @@ if __name__ == "__main__":
             time_day = 'am'
 
         hour_min = '{}:{:%M}'.format(hour_due, due_date)
-        due_time = 'Due: {:%B %d, %Y} @{}{}'.format(due_date, hour_min, time_day)
-        due = Label(root, text="{}".format(due_time), font=('Helvetica bold', 12), bg="#AFAFD7")
-        due.place(x=200, y=200)
+        due_time = '{} {:%d, %Y} @{}{}'.format(month_due[0:3], due_date, hour_min, time_day)
 
-        task_left_due = [selected_task, due_time]
+        task_left_due = [selected_task, 'STILL WORKING', due_time]
+
+        if current_action == 'edit':
+            delete_task()
+
+        task_list.append(task_left_due)
         with open("task.txt", 'a') as task_file:
-            task_file.write(task_left_due[1])
-        task_list.append(task_left_due[)
+            task_file.write(task_left_due[0] + '^&')
+            task_file.write(task_left_due[1] + '^&')
+            task_file.write(task_left_due[2] + '^&\n')
+
         listbox_name.insert(tk.END, task_left_due[0])
+        listbox_time_rem.insert(tk.END, task_left_due[1])
+        listbox_due.insert(tk.END, task_left_due[2])
+        cancel_edit()
 
 
     def add_task():
-        global selected_task
-        task = task_entry.get() + "\n"
+        global selected_task, current_action, add_time_btn_frame, confirm_time_btn
+        task = task_entry.get()
         selected_task = task
-        add = 'add'
+        current_action = 'add'
 
-        insert_due_date(task, add)
+        insert_due_date(task)
         add_time_btn_frame = tk.Frame(root, width=280, height=5)
         add_time_btn_frame.pack(pady=0)
         confirm_time_btn = tk.Button(add_time_btn_frame, text="Enter", font=('Helvetica bold', 12),
@@ -138,38 +151,38 @@ if __name__ == "__main__":
 
 
     def delete_task():
-        global task_list
-        task = [task_entry.get() + "\n"]
-        if task[0] in task_list[0]:
-            task_list.remove(task)
-            open('task.txt', 'w').close()
-            with open("task.txt", 'a') as task_file:
-                for item in task_list:
-                    task_file.write(item)
-        listbox_name.delete(0, END)
-        for item in task_list:
-            listbox_name.insert(tk.END, item)
+        global task_list, edited_task, current_action
+        if current_action != 'edit':
+            task = task_entry.get()
+        else:
+            current_action == 'delete'
+            task = edited_task[0]
 
+        for i in task_list:
+            if task == i[0]:
+                task_list.remove(i)
 
-    def confirm_edit():
-        global task_list, selected_task
-        new_task_name = task_entry.get() + "\n"
-        task_list.remove(selected_task)
-        task_list.append(new_task_name)
         open('task.txt', 'w').close()
         with open("task.txt", 'a') as task_file:
             for item in task_list:
-                task_file.write(item)
+                task_file.write(item[0] + '^&')
+                task_file.write(item[1] + '^&')
+                task_file.write(item[2] + '^&\n')
         listbox_name.delete(0, END)
-        for item in task_list:
-            listbox_name.insert(tk.END, item)
-        cancel_edit()
+        listbox_time_rem.delete(0, END)
+        listbox_due.delete(0, END)
+
+        if current_action == 'delete':
+            for item in task_list:
+                listbox_name.insert(tk.END, item[0])
+                listbox_time_rem.insert(tk.END, item[1])
+                listbox_due.insert(tk.END, item[2])
 
 
     def cancel_edit():
         global edit_btn_frame, confirm_edit_btn, cancel_edit_btn, minute_label, minute_entry, task_name_label
         global year_label, year_entry, month_label, month_entry, day_label, day_entry, hour_label, hour_entry
-        global time_instr_label
+        global time_instr_label, current_action
 
         year_label.destroy()
         year_entry.destroy()
@@ -183,9 +196,16 @@ if __name__ == "__main__":
         minute_entry.destroy()
         time_instr_label.destroy()
 
-        edit_btn_frame.pack_forget()
-        confirm_edit_btn.destroy()
-        cancel_edit_btn.destroy()
+        if current_action == 'edit':
+            edit_btn_frame.pack_forget()
+            confirm_edit_btn.destroy()
+            cancel_edit_btn.destroy()
+        elif current_action == 'add':
+            task_name_label.destroy()
+            add_time_btn_frame.pack_forget()
+            confirm_time_btn.destroy()
+            enter_task_label.place(x=30, y=285)
+            task_entry.pack(pady=10)
 
         btn_frame.pack()
         add_task_btn.grid(row=0, column=0)
@@ -193,28 +213,34 @@ if __name__ == "__main__":
         del_task_btn.grid(row=0, column=2)
         del_all_btn.grid(row=0, column=3)
 
+        current_action = ''
+
 
     def edit_task():
-        global task_list, selected_task, edit_btn_frame, confirm_edit_btn, cancel_edit_btn
+        global task_list, selected_task, edit_btn_frame, confirm_edit_btn, cancel_edit_btn, current_action, edited_task
 
-        task = task_entry.get() + "\n"
+        task = task_entry.get()
         selected_task = task
-        edit = 'edit'
+        current_action = 'edit'
 
-        if task in task_list:
-            insert_due_date(task, edit)
-
-            edit_btn_frame = tk.Frame(root, width=280, height=5)
-            edit_btn_frame.pack(pady=0)
-            confirm_edit_btn = tk.Button(edit_btn_frame, text="Confirm Edit", bg='light green', command=confirm_edit)
-            confirm_edit_btn.grid(row=0, column=0)
-            cancel_edit_btn = tk.Button(edit_btn_frame, text="Cancel Edit ", bg='red', command=cancel_edit)
-            cancel_edit_btn.grid(row=0, column=1)
+        for i in task_list:
+            if task == i[0]:
+                edited_task = i
+                insert_due_date(task)
+                edit_btn_frame = tk.Frame(root, width=280, height=5)
+                edit_btn_frame.pack(pady=0)
+                confirm_edit_btn = tk.Button(edit_btn_frame, text="Confirm Edit", bg='light green',
+                                             command=add_time)
+                confirm_edit_btn.grid(row=0, column=0)
+                cancel_edit_btn = tk.Button(edit_btn_frame, text="Cancel Edit ", bg='red', command=cancel_edit)
+                cancel_edit_btn.grid(row=0, column=1)
 
 
     def del_all():
         open('task.txt', 'w').close()
         listbox_name.delete(0, END)
+        listbox_time_rem.delete(0, END)
+        listbox_due.delete(0, END)
 
 
     def open_task_file():
@@ -223,15 +249,16 @@ if __name__ == "__main__":
             tasks = task_file.readlines()
         print(tasks)
         for task in tasks:
-            task_list.append(task)
-            listbox_name.insert(tk.END, task[0])
-            listbox_time_rem.insert(tk.END, task[1])
-            #listbox_due.insert(tk.END, task[2])
+            task_line = task.split('^&')
+            task_list.append(task_line)
+            listbox_name.insert(tk.END, task_line[0])
+            listbox_time_rem.insert(tk.END, task_line[1])
+            listbox_due.insert(tk.END, task_line[2])
 
 
     root = tk.Tk()
     root.title("TO DO LIST")
-    root.geometry("600x600")
+    root.geometry("600x650")
     root.config(bg="#AFAFD7")
     root.resizable(0, 0)
 
