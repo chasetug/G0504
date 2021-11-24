@@ -22,6 +22,7 @@ if __name__ == "__main__":
     task_name_label = ''
     time_instr_label = ''
 
+
     def insert_due_date(task, selection):
         global year_label, year_entry, month_label, month_entry, day_label, day_entry, hour_label, hour_entry
         global minute_label, minute_entry, task_name_label, time_instr_label
@@ -36,44 +37,44 @@ if __name__ == "__main__":
 
         if selection == 'add':
             y_add = 0
-            task_name_label = Label(root, text="Task: {}".format(task), bg="#AFAFD7")
-            task_name_label.place(x=20, y=259)
-            time_instr_label = Label(root, text="Enter the due date!", bg="#AFAFD7")
+            task_name_label = Label(root, text="Task: {}".format(task), font=('Helvetica bold', 12), bg="pink")
+            task_name_label.place(x=30, y=278)
+            time_instr_label = Label(root, text="Enter the due date!", font=('Helvetica bold', 12), bg="light blue")
             time_instr_label.pack(pady=0)
         elif selection == 'edit':
             y_add = 45
-            enter_task_label.place(x=20, y=270)
+            enter_task_label.place(x=30, y=280)
             task_entry.pack(pady=10)
-            time_instr_label = Label(root, text="Enter the due date!", bg="#AFAFD7")
+            time_instr_label = Label(root, text="Enter the due date!", font=('Helvetica bold', 12), bg="light blue")
             time_instr_label.pack(pady=0)
 
-        year_label = Label(root, text="Enter Year: ", bg="#AFAFD7")
-        year_label.place(x=20, y=290+y_add)
-        year_entry = tk.Entry(root, width=25, font=('times', 14))
+        year_label = Label(root, text="Enter Year: ", font=('Helvetica bold', 12), bg="#AFAFD7")
+        year_label.place(x=30, y=315+y_add)
+        year_entry = tk.Entry(root, width=25, font=('Helvetica bold', 14))
         year_entry.pack(pady=10)
 
-        month_label = Label(root, text="Enter Month: ", bg="#AFAFD7")
-        month_label.place(x=20, y=335+y_add)
-        month_entry = tk.Entry(root, width=25, font=('times', 14))
+        month_label = Label(root, text="Enter Month: ", font=('Helvetica bold', 12), bg="#AFAFD7")
+        month_label.place(x=30, y=360+y_add)
+        month_entry = tk.Entry(root, width=25, font=('Helvetica bold', 14))
         month_entry.pack(pady=10)
 
-        day_label = Label(root, text="Enter Day: ", bg="#AFAFD7")
-        day_label.place(x=20, y=380+y_add)
-        day_entry = tk.Entry(root, width=25, font=('times', 14))
+        day_label = Label(root, text="Enter Day: ", font=('Helvetica bold', 12), bg="#AFAFD7")
+        day_label.place(x=30, y=405+y_add)
+        day_entry = tk.Entry(root, width=25, font=('Helvetica bold', 14))
         day_entry.pack(pady=10)
 
-        hour_label = Label(root, text="Enter Hour: ", bg="#AFAFD7")
-        hour_label.place(x=20, y=425+y_add)
-        hour_entry = tk.Entry(root, width=25, font=('times', 14))
+        hour_label = Label(root, text="Enter Hour: ", font=('Helvetica bold', 12), bg="#AFAFD7")
+        hour_label.place(x=30, y=450+y_add)
+        hour_entry = tk.Entry(root, width=25, font=('Helvetica bold', 14))
         hour_entry.pack(pady=10)
 
-        minute_label = Label(root, text="Enter Minute: ", bg="#AFAFD7")
-        minute_label.place(x=20, y=470+y_add)
-        minute_entry = tk.Entry(root, width=25, font=('times', 14))
+        minute_label = Label(root, text="Enter Minute: ", font=('Helvetica bold', 12), bg="#AFAFD7")
+        minute_label.place(x=30, y=495+y_add)
+        minute_entry = tk.Entry(root, width=25, font=('Helvetica bold', 14))
         minute_entry.pack(pady=10)
 
     def add_time():
-        global selected_task
+        global selected_task, task_list
         time_due = []
         task_left_due = []
 
@@ -112,18 +113,18 @@ if __name__ == "__main__":
 
         hour_min = '{}:{:%M}'.format(hour_due, due_date)
         due_time = 'Due: {:%B %d, %Y} @{}{}'.format(due_date, hour_min, time_day)
-        due = Label(root, text="{}".format(due_time), bg="#AFAFD7")
+        due = Label(root, text="{}".format(due_time), font=('Helvetica bold', 12), bg="#AFAFD7")
         due.place(x=200, y=200)
 
         task_left_due = [selected_task, due_time]
         with open("task.txt", 'a') as task_file:
             task_file.write(task_left_due[1])
-        task_list.append(task_left_due[1])
-        listbox.insert(tk.END, task_left_due[1], task_left_due[0])
+        task_list.append(task_left_due[)
+        listbox_name.insert(tk.END, task_left_due[0])
 
 
     def add_task():
-        global task_list, selected_task
+        global selected_task
         task = task_entry.get() + "\n"
         selected_task = task
         add = 'add'
@@ -131,23 +132,23 @@ if __name__ == "__main__":
         insert_due_date(task, add)
         add_time_btn_frame = tk.Frame(root, width=280, height=5)
         add_time_btn_frame.pack(pady=0)
-        confirm_time_btn = tk.Button(add_time_btn_frame, text="Enter Due Date", bg='light green',
-                                     command=add_time)
+        confirm_time_btn = tk.Button(add_time_btn_frame, text="Enter", font=('Helvetica bold', 12),
+                                     bg='light green', command=add_time)
         confirm_time_btn.grid(row=0, column=0)
 
 
     def delete_task():
         global task_list
-        task = task_entry.get() + "\n"
-        if task in task_list:
+        task = [task_entry.get() + "\n"]
+        if task[0] in task_list[0]:
             task_list.remove(task)
             open('task.txt', 'w').close()
             with open("task.txt", 'a') as task_file:
                 for item in task_list:
                     task_file.write(item)
-        listbox.delete(0, END)
+        listbox_name.delete(0, END)
         for item in task_list:
-            listbox.insert(tk.END, item)
+            listbox_name.insert(tk.END, item)
 
 
     def confirm_edit():
@@ -159,9 +160,9 @@ if __name__ == "__main__":
         with open("task.txt", 'a') as task_file:
             for item in task_list:
                 task_file.write(item)
-        listbox.delete(0, END)
+        listbox_name.delete(0, END)
         for item in task_list:
-            listbox.insert(tk.END, item)
+            listbox_name.insert(tk.END, item)
         cancel_edit()
 
 
@@ -213,7 +214,7 @@ if __name__ == "__main__":
 
     def del_all():
         open('task.txt', 'w').close()
-        listbox.delete(0, END)
+        listbox_name.delete(0, END)
 
 
     def open_task_file():
@@ -222,33 +223,43 @@ if __name__ == "__main__":
             tasks = task_file.readlines()
         print(tasks)
         for task in tasks:
-            if task != '\n':
-                task_list.append(task)
-                listbox.insert(tk.END, task)
+            task_list.append(task)
+            listbox_name.insert(tk.END, task[0])
+            listbox_time_rem.insert(tk.END, task[1])
+            #listbox_due.insert(tk.END, task[2])
 
 
     root = tk.Tk()
     root.title("TO DO LIST")
-    root.geometry("500x600")
+    root.geometry("600x600")
     root.config(bg="#AFAFD7")
     root.resizable(0, 0)
+
+    title_label_name = Label(root, text="Task Name", font=('Helvetica bold', 16), bg="#AFAFD7")
+    title_label_name.place(x=60, y=0)
+    title_label_time_rem = Label(root, text="Time Remaining", font=('Helvetica bold', 16), bg="#AFAFD7")
+    title_label_time_rem.pack()
+    title_label_due = Label(root, text="Due Date", font=('Helvetica bold', 16), bg="#AFAFD7")
+    title_label_due.place(x=440, y=0)
+
     frame = tk.Frame(root, bd=3, width=300, height=350)
-    frame.pack(pady=10)
-    listbox = tk.Listbox(frame, font=('arial', 12), width=40, height=12)
-    listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=2)
+    frame.pack(pady=5)
+
+    listbox_name = tk.Listbox(frame, font=('Helvetica bold', 12), width=20, height=12)
+    listbox_name.grid(row=0, column=0)
+    listbox_time_rem = tk.Listbox(frame, font=('Helvetica bold', 12), width=20, height=12)
+    listbox_time_rem.grid(row=0, column=1)
+    listbox_due = tk.Listbox(frame, font=('Helvetica bold', 12), width=20, height=12)
+    listbox_due.grid(row=0, column=2)
     open_task_file()
-    scrollbar = tk.Scrollbar(frame)
-    scrollbar.pack(side=tk.RIGHT, fill=tk.BOTH)
-    listbox.config(yscrollcommand=scrollbar.set)
-    scrollbar.config(command=listbox.yview)
 
 # listbox / task list
-enter_task_label = Label(root, text="Enter a task name: ", bg="#AFAFD7")
-enter_task_label.place(x=20, y=270)
+enter_task_label = Label(root, text="Enter a task name: ", font=('Helvetica bold', 12), bg="#AFAFD7")
+enter_task_label.place(x=30, y=285)
 task_entry = tk.Entry(root, width=25, font=('times', 14))
 task_entry.pack(pady=10)
 
-btn_frame = tk.Frame(root, width=280, height=5)
+btn_frame = tk.Frame(root, width=290, height=20)
 btn_frame.pack(pady=0)
 add_task_btn = tk.Button(btn_frame, text="  Add Task ", bg='light green', command=add_task)
 add_task_btn.grid(row=0, column=0)
