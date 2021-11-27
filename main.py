@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox
 from datetime import datetime, timezone, timedelta
 
 if __name__ == "__main__":
@@ -24,6 +25,21 @@ if __name__ == "__main__":
     add_time_btn_frame = ''
     confirm_time_btn = ''
     edited_task = ''
+
+
+    def task_due_alert():
+        global task_list
+
+        current = datetime.now()
+        ampm = current.strftime("%p")
+        ampm = ampm.lower()
+        current_time = current.strftime("%b %d, %Y @%I:%M") + ampm
+
+        for row in task_list:
+            if row[2] == current_time:
+                messagebox.showinfo("A Task is Due", "Task \"{}\" is now due \n You must turn it in now.".format(row[0]))
+                row[2] += "Done"
+        root.after(1000, task_due_alert)
 
 
     def insert_due_date(task):
@@ -272,6 +288,7 @@ if __name__ == "__main__":
 
 
     root = tk.Tk()
+    task_due_alert()
     root.title("TO DO LIST")
     root.geometry("600x650")
     root.config(bg="#AFAFD7")
@@ -311,5 +328,7 @@ del_task_btn = tk.Button(btn_frame, text="Delete Task", bg='red', command=delete
 del_task_btn.grid(row=0, column=2)
 del_all_btn = tk.Button(btn_frame, text="   CLEAR   ", bg='white', command=del_all)
 del_all_btn.grid(row=0, column=3)
+
+#task_due_alert()
 
 root.mainloop()
