@@ -298,7 +298,11 @@ if __name__ == "__main__":
 
                 unix_timestamp = task_line[1]
                 time_left = int(unix_timestamp) - time.time()
-                countdown = str(timedelta(seconds=time_left))
+
+                if time_left > 0:
+                    countdown = str(timedelta(seconds=time_left))
+                else:
+                    countdown = "0"
 
                 listbox_time_rem.insert(tk.END, countdown)
         listbox_time_rem.after(1000, update_time)
