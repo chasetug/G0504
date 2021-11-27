@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 from datetime import datetime, timezone, timedelta
+import time
 
 if __name__ == "__main__":
     task_list = []
@@ -142,7 +143,7 @@ if __name__ == "__main__":
         # ADD NEW UPDATED TIMER
         unixtime = int(due_date.timestamp())
 
-        task_left_due = [selected_task, 'STILL WORKING', due_time]
+        task_left_due = [selected_task, str(unixtime), due_time]
 
         if current_action == 'edit':
             delete_task()
@@ -287,6 +288,24 @@ if __name__ == "__main__":
             listbox_due.insert(tk.END, task_line[2])
 
 
+    def update_time():
+        reset_board()
+        listbox_time_rem.delete(0, END)
+        with open("task.txt", 'r') as task_file:
+            tasks = task_file.readlines()
+            for task in tasks:
+                task_line = task.split('^&')
+
+                unix_timestamp = task_line[1]
+                time_left = int(unix_timestamp) - time.time()
+                countdown = str(timedelta(seconds=time_left))
+
+                listbox_time_rem.insert(tk.END, countdown)
+        listbox_time_rem.after(1000, update_time)
+
+
+
+
     root = tk.Tk()
     task_due_alert()
     root.title("TO DO LIST")
@@ -331,4 +350,5 @@ del_all_btn.grid(row=0, column=3)
 
 #task_due_alert()
 
+update_time()
 root.mainloop()
