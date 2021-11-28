@@ -300,7 +300,7 @@ if __name__ == "__main__":
                 time_left = int(unix_timestamp) - time.time()
 
                 if time_left > 0:
-                    countdown = str(timedelta(seconds=time_left))
+                    countdown = str(timedelta(seconds=time_left)).split(".")[0]
                 else:
                     countdown = "0"
 
