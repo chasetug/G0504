@@ -34,12 +34,17 @@ if __name__ == "__main__":
         current = datetime.now()
         ampm = current.strftime("%p")
         ampm = ampm.lower()
-        current_time = current.strftime("%b %d, %Y @%I:%M") + ampm
+
+        if (int(current.strftime("%I")) < 10):
+            hour = (current.strftime("%I"))[1:]
+            current_time = current.strftime("%b %d, %Y @") + hour + current.strftime(":%M") + ampm
+        else:
+            current_time = current.strftime("%b %d, %Y @%I:%M") + ampm
 
         for row in task_list:
             if row[2] == current_time:
-                messagebox.showinfo("A Task is Due", "Task \"{}\" is now due \n You must turn it in now.".format(row[0]))
-                row[2] += "Done"
+                messagebox.showinfo("A Task is Due", "Task \"{}\" is now due".format(row[0]))
+                row[2] += " "
         root.after(1000, task_due_alert)
 
 
@@ -351,8 +356,6 @@ del_task_btn = tk.Button(btn_frame, text="Delete Task", bg='red', command=delete
 del_task_btn.grid(row=0, column=2)
 del_all_btn = tk.Button(btn_frame, text="   CLEAR   ", bg='white', command=del_all)
 del_all_btn.grid(row=0, column=3)
-
-#task_due_alert()
 
 update_time()
 root.mainloop()
